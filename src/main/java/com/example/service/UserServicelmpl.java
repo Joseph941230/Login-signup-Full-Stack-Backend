@@ -69,6 +69,26 @@ public class UserServicelmpl implements UserService {
 
     @Override
     public void login(IdentityParameters identityParameters) throws UserException {
+        String password = identityParameters.getPasswd();
+        String email = identityParameters.getEmail();
+        String phone = identityParameters.getPhone();
+        boolean invaliedpasswd = StringUtils.isBlank(password);
+        boolean invaliedId = StringUtils.isAllBlank(email, phone);
+        if(invaliedpasswd || invaliedId) {
+            throw new UserException.InvalidPasswdException("Passwords do not match");
+        }
+        User userByEmail = userRepo.findUserByEmail(email);
+        User userByPhone = userRepo.findUserByPhone(phone);
+        if(null == userByPhone && null == userByPhone) {
+            throw new UserException.UserNotFoundException("User" + email+phone +"does not match");
+
+        }
+        if(userByEmail !=null && !password.equals(userByEmail.getPasswd())){
+            throw new UserException.InvalidPasswdException("Password does not match");
+        }
+        if(userByPhone !=null && !password.equals(userByPhone.getPasswd())){
+            throw new UserException.InvalidPasswdException("Password does not match");
+        }
 
     }
 

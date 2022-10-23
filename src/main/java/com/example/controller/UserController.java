@@ -52,7 +52,7 @@ public class UserController {
         return result;
     }
     @RequestMapping(path = "/user/login")
-    public Resp login(@RequestParam("username") String username, @RequestParam("password") String password) {
+    public Resp login(@RequestParam("phone") String phone,@RequestParam("email") String email, @RequestParam("password") String password) {
         String result = null;
         try {
             userService.login(new IdentityParameters());
